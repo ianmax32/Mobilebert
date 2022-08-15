@@ -1,0 +1,60 @@
+#:kivy 1.1.0
+
+Root:
+    text_input: text_input
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding:20
+        spacing:15
+
+        BoxLayout:
+            orientation:'vertical'
+            Label:
+                text: 'Training a mobileBert'
+            TextInput:
+                height:200
+                id: text_input
+                text: ''
+
+        BoxLayout:
+            size_hint_y: None
+            orientation: 'horizontal'
+            height: 50
+            spacing:10
+            Button:
+                size: dp(70), dp(100)
+                text: 'Load .txt File'
+                on_release: root.show_load()
+            Button:
+                size: 70, 100
+                text: 'Train'
+                on_release: root.trainModel()
+            Button:
+                size: 70, 50
+                text: 'Cancel'
+                on_release: mobileberttrain.close()
+
+        
+
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            path: "."
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: test
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
