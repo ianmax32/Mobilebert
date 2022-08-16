@@ -1,0 +1,105 @@
+#:kivy 1.1.0
+WindowManager:
+    Root:
+    Train:
+
+<Root>:
+    name:'main'
+    user_input : text_input
+    model_results : text_input_results
+    BoxLayout:
+        orientation:'vertical'
+        spacing:15
+        padding:20
+    
+        BoxLayout:  
+            spacing:4
+            orientation:'vertical'     
+            Label:
+                size_hint_y:0.1
+                text:'Testing the model'
+            TextInput:
+                size_hint_y:1.2
+                multiline:True
+                id: text_input
+                text: ''
+            Button:
+                text:'Test'
+                size_hint_y: .25
+                on_press: root.btnTest()
+        TextInput:
+            multiline:False
+            size_hint_y:0.1
+            id:text_input_results
+            text:''
+        GridLayout:
+            size_hint_y:.2
+            cols:1
+            GridLayout:
+                cols:2
+                Label:
+                    text:'Finetune model?'
+                Button:
+                    text:'Click me'
+                    on_release:
+                        app.root.current="train"
+                        root.manager.transition.direction="left"
+                        
+<Train>:
+    name:'train'
+    text_input: text_input
+    BoxLayout:
+        orientation: 'vertical'
+        padding:20
+        spacing:15
+
+        BoxLayout:
+            orientation:'vertical'
+            Label:
+                text: 'Training a mobileBert'
+                size_hint_y:0.1
+            TextInput:
+                height:200
+                id: text_input
+                text: ''
+
+        BoxLayout:
+            size_hint_y: None
+            orientation: 'horizontal'
+            height: 50
+            spacing:10
+            Button:
+                size: dp(70), dp(100)
+                text: 'Load .txt File'
+                on_release: root.show_load()
+            Button:
+                size: 70, 100
+                text: 'Train'
+                on_release: root.trainModel()
+            Button:
+                size: 70, 50
+                text: 'Cancel'
+                on_release: 
+                    app.root.current="main"
+                    root.manager.transition.direction="right"
+                    
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+            path: "."
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                id: test
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)

@@ -4,26 +4,16 @@ from kivy.factory import Factory
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.utils import platform
-from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
 
 import os
 
-#mainkvFile = Builder.load_file("mobilebertapp.kv")
-class WindowManager(ScreenManager):
-    pass
+class LoadDialog(FloatLayout):
+    load = ObjectProperty(None)
+    cancel = ObjectProperty(None)
 
-class Root(Screen):
-    user_input = ObjectProperty(None)
-    model_results= ObjectProperty(None)
 
-    def btnTest(self):
-        print("User typed: ", self.user_input.text)
 
-    def trainModel(self):
-        print('training')
-
-class Train(Screen):
+class Root(FloatLayout):
     loadfile = ObjectProperty(None)
     text_input = ObjectProperty(None)
 
@@ -52,17 +42,11 @@ class Train(Screen):
         self.dismiss_popup()
 
     def trainModel(self):
-        print('training') 
+        print('training')
 
-class LoadDialog(FloatLayout):
-    load = ObjectProperty(None)
-    cancel = ObjectProperty(None)
+    
 
-
-Factory.register('Root', cls=Root)
-Factory.register('LoadDialog', cls=LoadDialog)   
-
-class MobileBertTest(App):
+class MobileBertTrain(App):
     def build(self):
         return super().build()
 
@@ -72,5 +56,9 @@ class MobileBertTest(App):
 
 
 
+Factory.register('Root', cls=Root)
+Factory.register('LoadDialog', cls=LoadDialog)
+
+
 if __name__ == '__main__':
-    MobileBertTest().run()
+    MobileBertTrain().run()
